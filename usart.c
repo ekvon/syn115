@@ -1,6 +1,7 @@
 #include "stm32f103.h"
 
 #include <math.h>
+#include <string.h>
 
 void stm32f103_usart1_init(){
 	/*	PA9 (transmitter)	*/
@@ -40,3 +41,19 @@ uint32_t stm32f103_usart_brr_value(uint32_t APBxCLK, uint32_t br){
 	return rv;
 }
 
+void stm32f103_usart1_tx(char buf[], uint16_t size){
+	size_t i;
+	
+	if(!size)
+		size=strlen(buf);
+	/*	transmitter enable	*/
+	USART1->CR1|=USART_CR1_TE;
+	/*	send test string	*/
+	for(i=0;i<size;i++){
+		USART1->DR=buf[i];
+		while(!(USART1->SR&USART_SR_TC)){
+		}
+	}
+	/*	disable trasmitter	*/
+	USART1->CR1&=~USART_CR1_TE;
+}

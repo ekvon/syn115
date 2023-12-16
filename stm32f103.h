@@ -14,5 +14,7 @@ void stm32f103_gpio_init();
 
 void stm32f103_usart1_init();
 uint32_t stm32f103_usart_brr_value(uint32_t APBxCLK, uint32_t br);
+/*	send data via usart1 from buf with specified size	*/
+void stm32f103_usart1_tx(char buf[], uint16_t size);
 
 #endif

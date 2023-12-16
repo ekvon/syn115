@@ -2,6 +2,7 @@
 
 void stm32f103_rcc_init(){
 	/*	enable GPIO	*/
+	RCC->APB2ENR|=RCC_APB2ENR_IOPAEN;
   RCC->APB2ENR|=RCC_APB2ENR_IOPBEN;
   RCC->APB2ENR|=RCC_APB2ENR_IOPCEN;
   RCC->APB2ENR|=RCC_APB2ENR_AFIOEN;
@@ -9,6 +10,9 @@ void stm32f103_rcc_init(){
   RCC->APB2ENR|=RCC_APB2ENR_USART1EN;
   /*	don't use any prescalers for APB2	*/
   RCC->CFGR&=~(0x1<<13);
+  /*	SYSCLK as source for MCO	*/
+  RCC->CFGR&=~(0xf<<24);
+  RCC->CFGR|=(0x4<<24);
   
   /*	turn on HSE (8MHz) for high stability	*/
   RCC->CR|=RCC_CR_HSEON;
